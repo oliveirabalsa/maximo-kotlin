@@ -1,5 +1,7 @@
 package com.br.maximo.modules.products.entities
 
+import com.br.maximo.modules.store.entities.Store
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -17,10 +19,9 @@ data class Product(
 
     val image: String,
 
-//    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
-//    @JoinColumn(name = "store_id")
-//    @JsonIgnore
-//    val store: Store? = null,
+    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    val store: Store,
 
 //    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
 //    @JoinColumn(name = "order_id")

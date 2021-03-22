@@ -2,6 +2,7 @@ package com.br.maximo.modules.store.entities
 
 import com.br.maximo.modules.products.entities.Product
 import com.br.maximo.modules.user.entities.User
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
@@ -18,15 +19,10 @@ data class Store(
 
     @OneToOne(mappedBy = "store", fetch = FetchType.LAZY)
     @JsonIgnore
-    val user: User? = null
+    val user: User? = null,
 
-//    @OneToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    @JsonIgnore
-//    val user: User? = null,
-//
-//    @OneToMany(mappedBy = "store")
-//    @JsonIgnore
-//    val products: List<Product>
+
+    @OneToMany(mappedBy = "store")
+    val products: List<Product>? = null
 
     )

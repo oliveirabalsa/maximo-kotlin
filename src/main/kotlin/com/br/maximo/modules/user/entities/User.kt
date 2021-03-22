@@ -5,9 +5,7 @@ import com.br.maximo.modules.delivery.entities.Delivery
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.user.mappers.UserResponse
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.util.*
