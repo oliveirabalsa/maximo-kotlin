@@ -38,11 +38,11 @@ data class User(
     @field:LastModifiedDate
     val updatedAt: Date = Date(),
 
-    @OneToOne(cascade = arrayOf(CascadeType.ALL))
+    @OneToOne(cascade = arrayOf(CascadeType.MERGE))
     @JoinColumn(name = "address_id")
     val address: Address,
 
-    @OneToOne(cascade = arrayOf(CascadeType.ALL), optional = true)
+    @OneToOne(cascade = arrayOf(CascadeType.MERGE), optional = true)
     @JoinColumn(name = "store_id")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     val store: Store? = null,

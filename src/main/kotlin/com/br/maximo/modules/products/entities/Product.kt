@@ -1,6 +1,7 @@
 package com.br.maximo.modules.products.entities
 
 import com.br.maximo.modules.store.entities.Store
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
@@ -19,8 +20,9 @@ data class Product(
 
     val image: String,
 
-    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
+    @JsonBackReference
     val store: Store,
 
 //    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
