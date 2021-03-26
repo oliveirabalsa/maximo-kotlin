@@ -1,25 +1,25 @@
 package com.br.maximo.modules.user.controllers
 
 import com.br.maximo.modules.user.entities.User
-import com.br.maximo.modules.user.mappers.UserResponse
+import com.br.maximo.modules.user.mappers.UserDTO
 import com.br.maximo.modules.user.services.UserService
-import com.br.maximo.shared.models.WebResponse
-import org.springframework.validation.annotation.Validated
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/user")
+@JsonIgnoreProperties(ignoreUnknown=true)
 class UserController(val service: UserService) {
 
     @GetMapping
-    fun getAll(): List<User> {
+    fun getAll(): List<UserDTO> {
         return service.getAll()
 
     }
 
-    @PostMapping
+    @PostMapping(consumes=["application/json"])
     @ResponseBody
-    fun create(@RequestBody user: User): User {
+    fun create(@RequestBody user: User): UserDTO {
         return service.create(user)
     }
 }

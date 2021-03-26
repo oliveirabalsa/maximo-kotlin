@@ -1,4 +1,5 @@
 package com.br.maximo.modules.delivery.entities
+
 import com.br.maximo.modules.user.entities.User
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -16,7 +17,7 @@ data class Delivery(
     // Change to Enum in the future
     val status: String,
 
-    @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.EAGER)
+    @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val user: User? = null,
 
@@ -24,7 +25,6 @@ data class Delivery(
 //    @OneToOne(cascade = arrayOf(CascadeType.ALL))
 //    @JoinColumn(name = "order_id")
 //    val order: Order
-
 
 
 )

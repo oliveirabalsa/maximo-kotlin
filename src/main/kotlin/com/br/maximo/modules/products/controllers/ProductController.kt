@@ -12,7 +12,11 @@ class ProductController (val productService: ProductService) {
     @GetMapping
     fun getAll(): List<Product>{
         return productService.all()
+    }
 
+    @GetMapping("/store/{storeId}")
+    fun getProductsByStoreId(@PathVariable storeId: Long): List<Product> {
+        return productService.getProductsByStoreId(storeId)
     }
 
     @PostMapping

@@ -3,6 +3,7 @@ package com.br.maximo.modules.products.entities
 import com.br.maximo.modules.store.entities.Store
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
@@ -22,7 +23,6 @@ data class Product(
 
     @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    @JsonBackReference
     val store: Store,
 
 //    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)

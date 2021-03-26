@@ -3,9 +3,8 @@ package com.br.maximo.modules.user.entities
 import com.br.maximo.modules.address.entities.Address
 import com.br.maximo.modules.delivery.entities.Delivery
 import com.br.maximo.modules.store.entities.Store
-import com.br.maximo.modules.user.mappers.UserResponse
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonInclude
+import com.br.maximo.modules.user.mappers.UserDTO
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.util.*
@@ -30,7 +29,7 @@ data class User(
 
     @field:NotNull
     @field:Size(min = 5, message = "Senha deve conter mais de 5 digitos")
-    val password: String,
+    val password: String? = null,
 
     @field:CreatedDate
     val createdAt: Date = Date(),
@@ -38,19 +37,17 @@ data class User(
     @field:LastModifiedDate
     val updatedAt: Date = Date(),
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE))
-    @JoinColumn(name = "address_id")
-    val address: Address,
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    val address: Address? = null,
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE), optional = true)
-    @JoinColumn(name = "store_id")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     val store: Store? = null,
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonBackReference
-    val deliveries: List<Delivery>? = null,
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    val deliveries: List<Delivery>? = listOf(),
 
 //    @OneToMany(mappedBy = "user", cascade = arrayOf(CascadeType.ALL))
 //    @JsonIgnore
@@ -58,13 +55,16 @@ data class User(
 
 
 ) {
-    fun toResponseObject(): UserResponse {
-        return UserResponse(
+    fun toResponseObject(): UserDTO {
+        return UserDTO(
             id = this.id,
             name = this.name,
             email = this.email,
             createdAt = this.createdAt,
-            updatedAt = this.updatedAt
+            updatedAt = this.updatedAt,
+            address = this.address,
+            store = this.store,
+            deliveries = this.deliveries
         )
     }
 }
