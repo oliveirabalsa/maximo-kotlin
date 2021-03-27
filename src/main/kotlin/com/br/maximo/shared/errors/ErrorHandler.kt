@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
-class ErrorController {
+class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = [ConstraintViolationException::class])
-    fun badRequest(constraintViolationException: ConstraintViolationException): WebResponse<String> {
+    @ExceptionHandler(value = [BadRequestException::class])
+    fun badRequest(badRequestException: BadRequestException): WebResponse<String> {
         return WebResponse(
             code = 400,
             status = "BAD REQUEST",
-            data = constraintViolationException.message!!
+            data = badRequestException.errorMessage
         )
     }
 
@@ -26,7 +26,7 @@ class ErrorController {
         return WebResponse(
             code = 404,
             status = "NOT FOUND",
-            data = "Not Found"
+            data = notfoundException.emptyMessage
         )
     }
 

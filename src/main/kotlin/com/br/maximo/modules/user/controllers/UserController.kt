@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/user")
-@JsonIgnoreProperties(ignoreUnknown=true)
 class UserController(val service: UserService) {
 
     @GetMapping
@@ -17,9 +16,9 @@ class UserController(val service: UserService) {
 
     }
 
-    @PostMapping(consumes=["application/json"])
+    @PostMapping
     @ResponseBody
-    fun create(@RequestBody user: User): UserDTO {
+    fun create(@RequestBody user: User): User {
         return service.create(user)
     }
 }

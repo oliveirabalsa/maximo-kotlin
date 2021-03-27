@@ -22,6 +22,9 @@ data class UserDTO(
 
     val store: Store? = null,
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    val token: String? = null,
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     val deliveries: List<Delivery>? = listOf()
 )

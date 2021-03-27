@@ -2,6 +2,7 @@ package com.br.maximo.modules.products.controllers
 
 import com.br.maximo.modules.products.entities.Product
 import com.br.maximo.modules.products.services.ProductService
+import com.br.maximo.shared.models.WebResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -15,7 +16,7 @@ class ProductController (val productService: ProductService) {
     }
 
     @GetMapping("/store/{storeId}")
-    fun getProductsByStoreId(@PathVariable storeId: Long): List<Product> {
+    fun getProductsByStoreId(@PathVariable storeId: Long): WebResponse<List<Product>> {
         return productService.getProductsByStoreId(storeId)
     }
 

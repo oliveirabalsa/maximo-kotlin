@@ -1,5 +1,5 @@
 package com.br.maximo.shared.errors
 
-class NotFoundException : Exception() {
+class NotFoundException(val emptyMessage: String = "Not Found") : Exception() {
 
 }
