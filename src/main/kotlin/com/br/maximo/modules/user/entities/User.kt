@@ -26,6 +26,7 @@ class User {
     val id: Long = 0
 
     @NotNull
+    @Column(unique = true)
     val email: String = ""
 
     @CreatedDate

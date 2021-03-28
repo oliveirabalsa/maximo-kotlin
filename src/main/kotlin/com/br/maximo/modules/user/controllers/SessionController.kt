@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/login")
-class LoginController(val userService: UserService) {
+@RequestMapping
+class SessionController(val userService: UserService) {
 
-    @PostMapping
+    @PostMapping("/login")
     fun login(@RequestBody body: LoginDTO): WebResponse<String> {
         return userService.login(body)
+    }
+
+    @PostMapping("/logoff")
+    fun logout(): WebResponse<String> {
+        return userService.logout()
     }
 }

@@ -44,4 +44,8 @@ class JwtService(val response: HttpServletResponse, val userRepository: UserRepo
             throw UnauthorizedException()
         }
     }
+
+    fun logout() {
+
+    }
 }

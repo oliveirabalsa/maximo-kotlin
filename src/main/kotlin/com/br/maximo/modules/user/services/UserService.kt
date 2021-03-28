@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse
 @Service
 class UserService(
     val repository: UserRepository,
-    val jwtService: JwtService
+    val jwtService: JwtService,
 ) {
 
     fun getAll(token: String?): List<UserDTO> {
@@ -34,7 +34,7 @@ class UserService(
     }
 
     fun create(user: User): WebResponse<UserDTO> {
-         val userCreated = repository.save(user)
+        val userCreated = repository.save(user)
 
         return WebResponse(
             code = 200,
@@ -53,12 +53,16 @@ class UserService(
         return WebResponse(
             code = 200,
             status = "success",
-            data = "User successfully authenticated"
+            data = "User login success"
         )
     }
-
-    fun getById(id: Long): User? {
-        return repository.findByIdOrNull(id)
+    fun logout(): WebResponse<String> {
+        jwtService.logout()
+        return WebResponse(
+            code =  200,
+            status = "success",
+            data = "User logout success"
+        )
     }
 
 }
