@@ -18,6 +18,13 @@ class AddressController (val addressService: AddressService) {
     fun create(@Validated @RequestBody address: Address): Address {
         return addressService.create(address)
     }
+
+    @PutMapping("/{id}")
+    fun update(
+            @PathVariable id: Long,
+            @RequestBody address: Address): Address {
+        return addressService.update(id, address)
+    }
 }
 
 
