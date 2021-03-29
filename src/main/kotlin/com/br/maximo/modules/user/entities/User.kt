@@ -5,6 +5,7 @@ import com.br.maximo.modules.delivery.entities.Delivery
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.user.mappers.UserDTO
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -25,6 +26,7 @@ class User {
     val id: Long = 0
 
     @NotNull
+    @Column(unique = true)
     val email: String = ""
 
     @CreatedDate
@@ -49,9 +51,9 @@ class User {
     //    @OneToMany(mappedBy = "user", cascade = arrayOf(CascadeType.ALL))
 //    @JsonIgnore
 //    val orders: List<Order>? = null
-    @NotNull
-    @Size(min = 5, message = "Senha deve conter mais de 5 digitos")
+    @Column
     var password = ""
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         get() = field
         set(value) {
             val passwordEncoder = BCryptPasswordEncoder()
