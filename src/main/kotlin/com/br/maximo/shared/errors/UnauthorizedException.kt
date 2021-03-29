@@ -1,4 +1,4 @@
 package com.br.maximo.shared.errors
 
-class UnauthorizedException : Exception() {
+class UnauthorizedException(val unauthorizedMessage: String = "Please put your validation") : Exception() {
 }

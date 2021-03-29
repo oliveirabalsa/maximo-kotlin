@@ -36,7 +36,7 @@ class ErrorHandler {
         return WebResponse(
             code = 401,
             status = "UNAUTHORIZED",
-            data = "Please put your validation"
+            data = unauthorizedException.unauthorizedMessage
         )
     }
 

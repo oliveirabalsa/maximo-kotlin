@@ -8,16 +8,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping
 class UserController(val service: UserService) {
 
-    @GetMapping
-    fun getAll(@CookieValue("jwt") jwt: String?): List<UserDTO> {
-        return service.getAll(jwt)
+    @GetMapping("/user")
+    fun getAll(): List<UserDTO> {
+        return service.getAll()
 
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     @ResponseBody
     fun create(@RequestBody user: User): WebResponse<UserDTO> {
         return service.create(user)

@@ -8,18 +8,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class StoreService (val storeRepository: StoreRepository, val jwtService: JwtService) {
-    fun all(token: String?): List<Store> {
-        jwtService.checkAuthentication(token)
+    fun all(): List<Store> {
         return storeRepository.findAll()
     }
 
-    fun one(id: Long, token: String?): Store? {
-        jwtService.checkAuthentication(token)
+    fun one(id: Long): Store? {
         return storeRepository.findByIdOrNull(id)
     }
 
-    fun create(product: Store, token: String?): Store {
-        jwtService.checkAuthentication(token)
+    fun create(product: Store): Store {
         return storeRepository.save(product)
     }
 }

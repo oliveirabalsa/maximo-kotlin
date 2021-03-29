@@ -33,15 +33,14 @@ class JwtService(val response: HttpServletResponse, val userRepository: UserRepo
 
     fun checkAuthentication(token: String?): Boolean {
         try {
-            if (token == null) throw UnauthorizedException()
             val body = Jwts.parser().setSigningKey("secret").parseClaimsJws(token).body
 
             val user = userRepository.findByIdOrNull(body.issuer.toLong())
 
             if (user != null) return true
-            throw UnauthorizedException()
+            throw UnauthorizedException("Token Invalid")
         } catch (e: Exception) {
-            throw UnauthorizedException()
+            throw UnauthorizedException("Please check yout authorization")
         }
     }
 

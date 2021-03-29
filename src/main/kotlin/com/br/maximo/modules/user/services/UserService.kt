@@ -25,8 +25,7 @@ class UserService(
     val jwtService: JwtService,
 ) {
 
-    fun getAll(token: String?): List<UserDTO> {
-        jwtService.checkAuthentication(token)
+    fun getAll(): List<UserDTO> {
 
         val users = repository.findAll()
 
@@ -57,7 +56,6 @@ class UserService(
         )
     }
     fun logout(): WebResponse<String> {
-        jwtService.logout()
         return WebResponse(
             code =  200,
             status = "success",

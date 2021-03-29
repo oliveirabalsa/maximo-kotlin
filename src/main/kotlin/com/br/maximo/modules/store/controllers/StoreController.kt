@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.*
 @JsonIgnoreProperties(ignoreUnknown=true)
 class StoreController (val storeService: StoreService) {
     @GetMapping
-    fun getAll(@CookieValue("jwt") token: String?): List<Store>{
-        return storeService.all(token)
+    fun getAll(): List<Store>{
+        return storeService.all()
     }
 
     @GetMapping("/{id}")
-    fun one(@PathVariable id: Long, @CookieValue("jwt") token: String?): Store?{
-        return storeService.one(id, token)
+    fun one(@PathVariable id: Long): Store?{
+        return storeService.one(id)
     }
 
     @PostMapping
     @ResponseBody
-    fun create(@Validated @RequestBody store: Store, @CookieValue("jwt") token: String?): Store {
-        return storeService.create(store, token)
+    fun create(@Validated @RequestBody store: Store): Store {
+        return storeService.create(store)
     }
 }
