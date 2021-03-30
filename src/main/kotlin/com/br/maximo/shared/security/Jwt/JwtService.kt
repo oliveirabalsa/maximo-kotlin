@@ -40,11 +40,7 @@ class JwtService(val response: HttpServletResponse, val userRepository: UserRepo
             if (user != null) return true
             throw UnauthorizedException("Token Invalid")
         } catch (e: Exception) {
-            throw UnauthorizedException("Please check yout authorization")
+            throw UnauthorizedException("Please check your authorization")
         }
-    }
-
-    fun logout() {
-
     }
 }

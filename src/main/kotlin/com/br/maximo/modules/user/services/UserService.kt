@@ -55,12 +55,4 @@ class UserService(
             data = "User login success"
         )
     }
-    fun logout(): WebResponse<String> {
-        return WebResponse(
-            code =  200,
-            status = "success",
-            data = "User logout success"
-        )
-    }
-
 }

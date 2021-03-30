@@ -1,7 +1,7 @@
 package com.br.maximo.modules.user.entities
 
 import com.br.maximo.modules.address.entities.Address
-import com.br.maximo.modules.delivery.entities.Delivery
+import com.br.maximo.modules.order.entities.Order
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.user.mappers.UserDTO
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -11,28 +11,23 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
 import javax.persistence.*
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
 
 @Entity
+@Table(name = "users")
 class User {
     @Column
     val name: String = ""
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0
 
-    @NotNull
     @Column(unique = true)
     val email: String = ""
 
-    @CreatedDate
     val createdAt: Date = Date()
 
-    @LastModifiedDate
     val updatedAt: Date = Date()
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
@@ -45,12 +40,9 @@ class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
-    val deliveries: List<Delivery>? = listOf()
+    val orders: List<Order>? = null
 
 
-    //    @OneToMany(mappedBy = "user", cascade = arrayOf(CascadeType.ALL))
-//    @JsonIgnore
-//    val orders: List<Order>? = null
     @Column
     var password = ""
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -75,7 +67,7 @@ class User {
             updatedAt = this.updatedAt,
             address = this.address,
             store = this.store,
-            deliveries = this.deliveries,
+            orders = this.orders,
             token = token
         )
     }

@@ -1,7 +1,7 @@
 package com.br.maximo.modules.user.mappers
 
 import com.br.maximo.modules.address.entities.Address
-import com.br.maximo.modules.delivery.entities.Delivery
+import com.br.maximo.modules.order.entities.Order
 import com.br.maximo.modules.store.entities.Store
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.util.*
@@ -26,5 +26,5 @@ data class UserDTO(
     val token: String? = null,
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    val deliveries: List<Delivery>? = listOf()
+    val orders: List<Order>? = listOf()
 )

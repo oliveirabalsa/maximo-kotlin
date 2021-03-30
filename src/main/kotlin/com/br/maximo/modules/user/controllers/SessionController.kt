@@ -16,9 +16,4 @@ class SessionController(val userService: UserService) {
     fun login(@RequestBody body: LoginDTO): WebResponse<String> {
         return userService.login(body)
     }
-
-    @PostMapping("/logoff")
-    fun logout(): WebResponse<String> {
-        return userService.logout()
-    }
 }

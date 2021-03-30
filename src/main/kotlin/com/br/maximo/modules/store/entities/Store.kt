@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
-@Table(name = "store")
+@Table(name = "stores")
 data class Store(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

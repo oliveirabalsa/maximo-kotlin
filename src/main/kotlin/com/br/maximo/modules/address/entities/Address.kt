@@ -1,6 +1,7 @@
 package com.br.maximo.modules.address.entities
 
 import com.br.maximo.modules.address.enum.AddressEnum
+import com.br.maximo.modules.order.entities.Order
 import com.br.maximo.modules.user.entities.User
 import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
-@Table(name = "address")
+@Table(name = "addresses")
 data class Address(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -35,9 +36,13 @@ data class Address(
     @Column
     val type: AddressEnum,
 
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+    @JsonIgnore
+    val order: Order? = null,
+
     @OneToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    val user: User,
+    val user: User? = null,
 
 
 )
