@@ -34,11 +34,11 @@ class User {
     @JsonIgnore
     val address: Address? = null
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     @JsonIgnore
     val store: Store? = null
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
     @JsonIgnore
     val orders: List<Order>? = null
 

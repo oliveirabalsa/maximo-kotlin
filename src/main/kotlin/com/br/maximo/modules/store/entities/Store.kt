@@ -1,11 +1,9 @@
 package com.br.maximo.modules.store.entities
 
 import com.br.maximo.modules.products.entities.Product
+import com.br.maximo.modules.store.dto.StoreDTO
 import com.br.maximo.modules.user.entities.User
-import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import javax.persistence.*
 
 @Entity
@@ -19,9 +17,9 @@ data class Store(
 
     val image: String,
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.EAGER)
+    @OneToOne(cascade = arrayOf(CascadeType.MERGE))
     @JoinColumn(name = "user_id")
-    val user: User,
+    val owner: User? = null,
 
 
     @OneToMany(mappedBy = "store", )
@@ -29,3 +27,4 @@ data class Store(
     val products: List<Product>? = listOf()
 
     )
+

@@ -12,20 +12,15 @@ import java.lang.Exception
 @Component
 class AuthenticationInterceptor(val jwtService: JwtService) : WebRequestInterceptor {
     override fun preHandle(request: WebRequest) {
-        val path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, 0).toString()
-        if (path.contains("login") || path.contains("signup")) {
-            return
-        }
-        val authorization = request.getHeader("Authorization") ?: throw UnauthorizedException("Token invalid")
-
-        val (type, token) = authorization.split(" ")
-
-        println(type)
-        println(token)
-
-        if (type.toLowerCase() != "bearer") throw UnauthorizedException("Type unknown")
-
-        jwtService.checkAuthentication(token)
+//        val path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, 0).toString()
+//        if (path.contains("login") || path.contains("signup")) return
+//
+//        val authorization = request.getHeader("Authorization") ?: throw UnauthorizedException("Token invalid")
+//        val (type, token) = authorization.split(" ")
+//
+//        if (type.toLowerCase() != "bearer") throw UnauthorizedException("Type unknown")
+//
+//        jwtService.checkAuthentication(token)
     }
 
     override fun postHandle(p0: WebRequest, p1: ModelMap?) {

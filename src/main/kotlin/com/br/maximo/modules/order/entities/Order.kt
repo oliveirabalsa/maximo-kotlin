@@ -24,7 +24,7 @@ data class Order(
 
     @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    val user: User? = null,
+    val buyer: User? = null,
 
     @OneToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")

@@ -1,5 +1,6 @@
 package com.br.maximo.modules.store.controllers
 
+import com.br.maximo.modules.store.dto.StoreDTO
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.store.services.StoreService
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -23,7 +24,7 @@ class StoreController (val storeService: StoreService) {
 
     @PostMapping
     @ResponseBody
-    fun create(@Validated @RequestBody store: Store): Store {
+    fun create(@Validated @RequestBody store: StoreDTO): Store {
         return storeService.create(store)
     }
 }

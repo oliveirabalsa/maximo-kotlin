@@ -28,7 +28,7 @@ class OrderService(
             orderCreated.price,
             orderCreated.delivery_status,
             deliveryMan,
-            orderCreated.user,
+            orderCreated.buyer,
             orderCreated.address,
             orderCreated.products,
         )
