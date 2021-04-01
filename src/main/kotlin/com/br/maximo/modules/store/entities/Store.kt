@@ -17,7 +17,7 @@ data class Store(
 
     val image: String,
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE))
+    @OneToOne(cascade = arrayOf(CascadeType.ALL))
     @JoinColumn(name = "user_id")
     val owner: User? = null,
 

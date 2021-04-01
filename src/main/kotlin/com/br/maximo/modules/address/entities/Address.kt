@@ -40,7 +40,7 @@ data class Address(
     @JsonIgnore
     val order: Order? = null,
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
+    @OneToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val user: User? = null,
 

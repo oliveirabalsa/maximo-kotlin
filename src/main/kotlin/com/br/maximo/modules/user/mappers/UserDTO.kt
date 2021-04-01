@@ -3,6 +3,7 @@ package com.br.maximo.modules.user.mappers
 import com.br.maximo.modules.address.entities.Address
 import com.br.maximo.modules.order.entities.Order
 import com.br.maximo.modules.store.entities.Store
+import com.br.maximo.modules.user.enum.UserTypeEnum
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.util.*
 
@@ -21,6 +22,8 @@ data class UserDTO(
     val address: Address? = null,
 
     val store: Store? = null,
+
+    val type: UserTypeEnum? = null,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     val token: String? = null,

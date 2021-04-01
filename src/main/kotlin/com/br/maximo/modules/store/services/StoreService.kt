@@ -3,9 +3,10 @@ package com.br.maximo.modules.store.services
 import com.br.maximo.modules.store.dto.StoreDTO
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.store.repositories.StoreRepository
+import com.br.maximo.modules.user.enum.UserTypeEnum
 import com.br.maximo.modules.user.repositories.UserRepository
+import com.br.maximo.shared.errors.BadRequestException
 import com.br.maximo.shared.errors.NotFoundException
-import com.br.maximo.shared.security.Jwt.JwtService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -23,13 +24,15 @@ class StoreService(
     }
 
     fun create(store: StoreDTO): Store {
-        val userExists = userRepository.findByIdOrNull(store.owner_id) ?: throw NotFoundException("Owner with id ${store.id} doesn't exists")
+        val user = userRepository.findByIdOrNull(store.owner_id) ?: throw NotFoundException("Owner with id ${store.id} doesn't exists")
+
+        if(user.type != UserTypeEnum.SELLER) throw BadRequestException("The owner must be a type seller")
 
         val storeToCreate = Store(
             id = store.id,
             name = store.name,
             image = store.image,
-            owner = userExists,
+            owner = user,
             products = store.products
         )
 

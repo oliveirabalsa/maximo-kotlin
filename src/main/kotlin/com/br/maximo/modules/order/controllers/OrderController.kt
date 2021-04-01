@@ -21,4 +21,9 @@ class OrderController (val orderService: OrderService) {
     fun create(@Validated @RequestBody order: Order): OrderDTO {
         return orderService.create(order)
     }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody order: Order): Order {
+        return orderService.update(order = order, orderId = id)
+    }
 }
