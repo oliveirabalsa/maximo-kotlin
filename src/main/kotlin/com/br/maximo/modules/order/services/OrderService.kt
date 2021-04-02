@@ -24,7 +24,7 @@ class OrderService(
     fun create(order: Order): OrderDTO {
         val buyer = userRepository.findByIdOrNull(order.buyer?.id) ?: throw NotFoundException("Buyer not found")
 
-        if(buyer.type != UserTypeEnum.BUYER) throw BadRequestException("Buyer must be a type ${UserTypeEnum.BUYER}")
+        if (buyer.type != UserTypeEnum.BUYER) throw BadRequestException("Buyer must be a type ${UserTypeEnum.BUYER}")
 
         val orderCreated = orderRepository.save(order)
 
@@ -42,20 +42,22 @@ class OrderService(
     fun update(orderId: Long, order: Order): Order {
         val foundOrder = orderRepository.findByIdOrNull(orderId) ?: throw NotFoundException("Order not found")
 
-        val deliveryMan = userRepository.findByIdOrNull(order.delivery_man_id) ?: throw NotFoundException("Delivery man not found")
+        val deliveryMan =
+            userRepository.findByIdOrNull(order.delivery_man_id) ?: throw NotFoundException("Delivery man not found")
 
-        if(deliveryMan.type != UserTypeEnum.DELIVERY_MAN) throw BadRequestException("Delivery man must be a type ${UserTypeEnum.DELIVERY_MAN}")
+        if (deliveryMan.type != UserTypeEnum.DELIVERY_MAN) throw BadRequestException("Delivery man must be a type ${UserTypeEnum.DELIVERY_MAN}")
 
         //check if address exists
 
         val orderToUpdate = foundOrder.copy(
-             price = order.price,
-             delivery_status = order.delivery_status,
-             delivery_man_id = 14,
-             buyer = order.buyer,
-             address = order.address,
-             products = order.products,
+            id = order.id,
+            price = order.price,
+            delivery_status = order.delivery_status,
+            delivery_man_id = deliveryMan.id,
+            buyer = order.buyer,
+            address = order.address,
+            products = order.products,
         )
-        return orderRepository.saveAndFlush(orderToUpdate)
+        return orderRepository.save(orderToUpdate)
     }
 }

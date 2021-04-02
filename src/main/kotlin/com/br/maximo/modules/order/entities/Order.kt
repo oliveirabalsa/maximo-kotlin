@@ -22,16 +22,16 @@ data class Order(
     @Column
     val delivery_man_id: Long? = null,
 
-    @ManyToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val buyer: User? = null,
 
-    @OneToOne(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @OneToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     val address: Address? = null,
 
 
-    @OneToMany(cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @OneToMany(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     val products: List<Product>? = null,
 
