@@ -42,6 +42,38 @@ class UserService(
         )
     }
 
+    fun update(id: Long?, user: User): WebResponse<UserDTO> {
+        if(id == null) throw BadRequestException("Please enter the user id")
+
+        val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
+
+        userFinded.name = user.name
+        userFinded.email = user.email
+        userFinded.type = user.type
+
+        val userUpdated = repository.save(userFinded)
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = userUpdated.toResponseObject()
+        )
+    }
+
+    fun delete(id: Long?): WebResponse<Unit> {
+        if(id == null) throw BadRequestException("Please enter the user id")
+
+        val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
+
+        val userDeleted = repository.delete(userFinded)
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = userDeleted
+        )
+    }
+
     fun login(body: LoginDTO): WebResponse<String> {
         val user = repository.findByEmail(body.email) ?: throw NotFoundException("User not found")
 

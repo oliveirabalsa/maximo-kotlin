@@ -14,12 +14,20 @@ class UserController(val service: UserService) {
     @GetMapping("/user")
     fun getAll(): List<UserDTO> {
         return service.getAll()
-
     }
 
     @PostMapping("/signup")
-    @ResponseBody
     fun create(@RequestBody user: User): WebResponse<UserDTO> {
         return service.create(user)
+    }
+
+    @PutMapping("/user/{id}")
+    fun update(@PathVariable id: Long, @RequestBody user: User): WebResponse<UserDTO> {
+        return service.update(id, user)
+    }
+
+    @DeleteMapping("/user/{id}")
+    fun delete(@PathVariable id: Long): WebResponse<Unit> {
+        return service.delete(id)
     }
 }
