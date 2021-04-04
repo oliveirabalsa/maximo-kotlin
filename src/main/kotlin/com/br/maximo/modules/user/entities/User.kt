@@ -30,7 +30,7 @@ class User {
 
     val updatedAt: Date = Date()
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     val address: Address? = null
 

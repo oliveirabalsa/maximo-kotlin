@@ -24,7 +24,7 @@ class StoreService(
     }
 
     fun create(store: StoreDTO): Store {
-        val user = userRepository.findByIdOrNull(store.owner_id) ?: throw NotFoundException("Owner with id ${store.id} doesn't exists")
+        val user = userRepository.findByIdOrNull(store.owner_id) ?: throw NotFoundException("Owner with id ${store.owner_id} doesn't exists")
 
         if(user.type != UserTypeEnum.SELLER) throw BadRequestException("The owner must be a type seller")
 
