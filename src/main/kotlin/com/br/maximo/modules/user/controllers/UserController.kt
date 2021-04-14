@@ -5,15 +5,26 @@ import com.br.maximo.modules.user.mappers.UserDTO
 import com.br.maximo.modules.user.services.UserService
 import com.br.maximo.shared.models.WebResponse
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping
 class UserController(val service: UserService) {
 
+    // TODO update UserDTO to return with totalpages, page, size and totalelements
     @GetMapping("/user")
-    fun getAll(): List<UserDTO> {
-        return service.getAll()
+    fun getAll(
+        @RequestParam(
+            defaultValue = "0",
+            value = "page"
+        ) page: Int,
+        @RequestParam(
+            defaultValue = "10",
+            value = "size"
+        ) size: Int,
+    ): List<UserDTO> {
+        return service.getAll(page, size)
     }
 
     @PostMapping("/signup")

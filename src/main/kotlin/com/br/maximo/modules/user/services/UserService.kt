@@ -11,6 +11,10 @@ import com.br.maximo.shared.security.Jwt.JwtService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import net.bytebuddy.implementation.bytecode.Throw
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.CookieValue
@@ -25,11 +29,14 @@ class UserService(
     val jwtService: JwtService,
 ) {
 
-    fun getAll(): List<UserDTO> {
+    fun getAll(page: Int, size: Int): List<UserDTO> {
+        if(page < 1 || size < 1) throw BadRequestException("Please the page/size must be greater than 0")
 
-        val users = repository.findAll()
+        val params = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdAt")
 
-        return users.map { it.toResponseObject() }
+        val users = repository.findAll(params)
+
+        return users.content.map { it.toResponseObject() }
     }
 
     fun create(user: User): WebResponse<UserDTO> {
