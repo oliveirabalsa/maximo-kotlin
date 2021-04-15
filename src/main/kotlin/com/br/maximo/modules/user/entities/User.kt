@@ -58,7 +58,7 @@ class User {
     }
 
 
-    fun toResponseObject(token: String? = null): UserDTO {
+    fun toResponseObject(): UserDTO {
         return UserDTO(
             id = this.id,
             name = this.name,
@@ -69,7 +69,6 @@ class User {
             store = this.store,
             orders = this.orders,
             type = this.type,
-            token = token
         )
     }
 }

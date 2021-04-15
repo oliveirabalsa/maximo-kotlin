@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping
 class UserController(val service: UserService) {
 
-    // TODO update UserDTO to return with totalpages, page, size and totalelements
     @GetMapping("/user")
     fun getAll(
         @RequestParam(
@@ -23,7 +22,7 @@ class UserController(val service: UserService) {
             defaultValue = "10",
             value = "size"
         ) size: Int,
-    ): List<UserDTO> {
+    ): WebResponse<Any> {
         return service.getAll(page, size)
     }
 

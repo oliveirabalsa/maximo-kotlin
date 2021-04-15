@@ -29,14 +29,26 @@ class UserService(
     val jwtService: JwtService,
 ) {
 
-    fun getAll(page: Int, size: Int): List<UserDTO> {
-        if(page < 1 || size < 1) throw BadRequestException("Please the page/size must be greater than 0")
+    fun getAll(page: Int, size: Int): WebResponse<Any> {
+        if (page < 1 || size < 1) throw BadRequestException("Please the page/size must be greater than 0")
 
         val params = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdAt")
 
         val users = repository.findAll(params)
 
-        return users.content.map { it.toResponseObject() }
+        val usersMapped = users.content.map { it.toResponseObject() }
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = object {
+                val content = usersMapped
+                val totalPages = users.totalPages
+                val totalElements = users.totalElements
+                val size = users.size
+
+            }
+        )
     }
 
     fun create(user: User): WebResponse<UserDTO> {
@@ -50,7 +62,7 @@ class UserService(
     }
 
     fun update(id: Long?, user: User): WebResponse<UserDTO> {
-        if(id == null) throw BadRequestException("Please enter the user id")
+        if (id == null) throw BadRequestException("Please enter the user id")
 
         val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
 
@@ -68,7 +80,7 @@ class UserService(
     }
 
     fun delete(id: Long?): WebResponse<Unit> {
-        if(id == null) throw BadRequestException("Please enter the user id")
+        if (id == null) throw BadRequestException("Please enter the user id")
 
         val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
 
