@@ -11,6 +11,10 @@ import com.br.maximo.shared.security.Jwt.JwtService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import net.bytebuddy.implementation.bytecode.Throw
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.CookieValue
@@ -25,11 +29,26 @@ class UserService(
     val jwtService: JwtService,
 ) {
 
-    fun getAll(): List<UserDTO> {
+    fun getAll(page: Int, size: Int): WebResponse<Any> {
+        if (page < 1 || size < 1) throw BadRequestException("Please the page/size must be greater than 0")
 
-        val users = repository.findAll()
+        val params = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdAt")
 
-        return users.map { it.toResponseObject() }
+        val users = repository.findAll(params)
+
+        val usersMapped = users.content.map { it.toResponseObject() }
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = object {
+                val content = usersMapped
+                val totalPages = users.totalPages
+                val totalElements = users.totalElements
+                val size = users.size
+
+            }
+        )
     }
 
     fun create(user: User): WebResponse<UserDTO> {
@@ -39,6 +58,38 @@ class UserService(
             code = 200,
             status = "success",
             data = userCreated.toResponseObject()
+        )
+    }
+
+    fun update(id: Long?, user: User): WebResponse<UserDTO> {
+        if (id == null) throw BadRequestException("Please enter the user id")
+
+        val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
+
+        userFinded.name = user.name
+        userFinded.email = user.email
+        userFinded.type = user.type
+
+        val userUpdated = repository.save(userFinded)
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = userUpdated.toResponseObject()
+        )
+    }
+
+    fun delete(id: Long?): WebResponse<Unit> {
+        if (id == null) throw BadRequestException("Please enter the user id")
+
+        val userFinded = repository.findByIdOrNull(id) ?: throw NotFoundException("User not found")
+
+        val userDeleted = repository.delete(userFinded)
+
+        return WebResponse(
+            code = 200,
+            status = "success",
+            data = userDeleted
         )
     }
 

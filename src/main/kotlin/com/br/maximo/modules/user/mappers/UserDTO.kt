@@ -19,7 +19,7 @@ data class UserDTO(
 
     val updatedAt: Date? = null,
 
-    val address: Address? = null,
+    val addresses: List<Address> = listOf(),
 
     val store: Store? = null,
 

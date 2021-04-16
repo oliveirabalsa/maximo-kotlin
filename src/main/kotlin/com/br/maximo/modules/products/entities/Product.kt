@@ -22,9 +22,9 @@ data class Product(
 
     val image: String,
 
-    @ManyToOne(cascade = arrayOf(CascadeType.MERGE), fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    val store: Store,
+    val store: Store? = null,
 
 
     )

@@ -15,24 +15,24 @@ import javax.persistence.*
 @Table(name = "users")
 class User {
     @Column
-    val name: String = ""
+    var name: String = ""
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0
 
     @Column(unique = true)
-    val email: String = ""
+    var email: String = ""
 
-    val type: UserTypeEnum? = null
+    var type: UserTypeEnum? = null
 
     val createdAt: Date = Date()
 
     val updatedAt: Date = Date()
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
-    val address: Address? = null
+    val addresses: List<Address> = listOf()
 
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     @JsonIgnore
@@ -58,18 +58,18 @@ class User {
     }
 
 
-    fun toResponseObject(token: String? = null): UserDTO {
+    fun toResponseObject(): UserDTO {
         return UserDTO(
             id = this.id,
             name = this.name,
             email = this.email,
             createdAt = this.createdAt,
             updatedAt = this.updatedAt,
-            address = this.address,
+            addresses = this.addresses,
             store = this.store,
             orders = this.orders,
             type = this.type,
-            token = token
         )
     }
 }
+

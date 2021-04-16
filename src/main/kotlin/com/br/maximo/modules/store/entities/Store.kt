@@ -17,9 +17,9 @@ data class Store(
 
     val image: String,
 
-    @OneToOne(cascade = arrayOf(CascadeType.MERGE))
+    @OneToOne
     @JoinColumn(name = "user_id")
-    val owner: User? = null,
+    val owner: User,
 
 
     @OneToMany(mappedBy = "store", )
