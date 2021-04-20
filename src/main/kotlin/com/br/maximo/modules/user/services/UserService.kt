@@ -30,7 +30,7 @@ class UserService(
 ) {
 
     fun getAll(page: Int, size: Int): WebResponse<Any> {
-        if (page < 1 || size < 1) throw BadRequestException("Please the page/size must be greater than 0")
+        if (page < 0 || size < 0) throw BadRequestException("Please the page/size must be greater than 0")
 
         val params = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdAt")
 
