@@ -15,7 +15,7 @@ class UserController(val service: UserService) {
     @GetMapping("/user")
     fun getAll(
         @RequestParam(
-            defaultValue = "0",
+            defaultValue = "1",
             value = "page"
         ) page: Int,
         @RequestParam(

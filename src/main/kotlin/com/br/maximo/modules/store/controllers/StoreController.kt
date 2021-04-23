@@ -27,4 +27,16 @@ class StoreController (val storeService: StoreService) {
     fun create(@Validated @RequestBody store: StoreDTO): Store {
         return storeService.create(store)
     }
+
+    @PutMapping("/{id}")
+    @ResponseBody
+    fun update(@RequestBody store: StoreDTO, @PathVariable("id") id: Long): Store {
+        return storeService.update(store, id)
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    fun delete(@PathVariable("id") id: Long): Unit {
+        return storeService.delete(id)
+    }
 }

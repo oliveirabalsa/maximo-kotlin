@@ -38,4 +38,19 @@ class StoreService(
 
         return storeRepository.save(storeToCreate)
     }
+
+    fun update(store: StoreDTO, id: Long): Store {
+        val storeFound = storeRepository.findByIdOrNull(id) ?: throw NotFoundException("Cannot find store with Id: $id")
+        val (_, name, image, owner, products ) = store
+
+        val storeToUpdate = storeFound.copy(id = id, name = name, image = image, owner = storeFound.owner, products = products)
+
+        return storeRepository.save(storeToUpdate)
+
+    }
+
+    fun delete(id: Long) {
+        val store = storeRepository.findByIdOrNull(id) ?: throw NotFoundException("Cannot find store with Id: $id")
+        return storeRepository.delete(store)
+    }
 }
