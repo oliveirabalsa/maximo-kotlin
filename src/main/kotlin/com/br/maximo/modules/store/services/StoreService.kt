@@ -3,6 +3,7 @@ package com.br.maximo.modules.store.services
 import com.br.maximo.modules.store.dto.StoreDTO
 import com.br.maximo.modules.store.entities.Store
 import com.br.maximo.modules.store.repositories.StoreRepository
+import com.br.maximo.modules.user.entities.User
 import com.br.maximo.modules.user.enum.UserTypeEnum
 import com.br.maximo.modules.user.repositories.UserRepository
 import com.br.maximo.shared.errors.BadRequestException
@@ -15,8 +16,12 @@ class StoreService(
     val storeRepository: StoreRepository,
     val userRepository: UserRepository,
 ) {
-    fun all(): List<Store> {
-        return storeRepository.findAll()
+    fun all(name: String?, owner_id: String?): List<Store?> {
+        val storeName = name ?: ""
+        if (name == null && owner_id == null) return this.storeRepository.findAll()
+        val user = this.userRepository.findByIdOrNull(owner_id?.toLong() ?: 0)
+        if(name != null && owner_id.isNullOrEmpty()) return this.storeRepository.findByNameContainingIgnoreCase(storeName)
+        return this.storeRepository.findByNameContainingIgnoreCaseAndOwner(storeName, user)
     }
 
     fun one(id: Long): Store? {
@@ -24,9 +29,10 @@ class StoreService(
     }
 
     fun create(store: StoreDTO): Store {
-        val user = userRepository.findByIdOrNull(store.owner_id) ?: throw NotFoundException("Owner with id ${store.owner_id} doesn't exists")
+        val user = userRepository.findByIdOrNull(store.owner_id)
+            ?: throw NotFoundException("Owner with id ${store.owner_id} doesn't exists")
 
-        if(user.type != UserTypeEnum.SELLER) throw BadRequestException("The owner must be a type seller")
+        if (user.type != UserTypeEnum.SELLER) throw BadRequestException("The owner must be a type seller")
 
         val storeToCreate = Store(
             id = store.id,
@@ -41,9 +47,10 @@ class StoreService(
 
     fun update(store: StoreDTO, id: Long): Store {
         val storeFound = storeRepository.findByIdOrNull(id) ?: throw NotFoundException("Cannot find store with Id: $id")
-        val (_, name, image, owner, products ) = store
+        val (_, name, image, owner, products) = store
 
-        val storeToUpdate = storeFound.copy(id = id, name = name, image = image, owner = storeFound.owner, products = products)
+        val storeToUpdate =
+            storeFound.copy(id = id, name = name, image = image, owner = storeFound.owner, products = products)
 
         return storeRepository.save(storeToUpdate)
 

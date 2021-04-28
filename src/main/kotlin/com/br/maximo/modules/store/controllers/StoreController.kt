@@ -13,11 +13,21 @@ import org.springframework.web.bind.annotation.*
 @JsonIgnoreProperties(ignoreUnknown=true)
 class StoreController (val storeService: StoreService) {
     @GetMapping
-    fun getAll(): List<Store>{
-        return storeService.all()
+    fun getAll(
+        @RequestParam(
+            value = "name",
+            required = false
+        ) name: String?,
+        @RequestParam(
+            required = false,
+            value = "owner_id"
+        ) owner_id: String?
+    ): List<Store?> {
+        return storeService.all(name, owner_id)
     }
 
     @GetMapping("/{id}")
+
     fun one(@PathVariable id: Long): Store?{
         return storeService.one(id)
     }

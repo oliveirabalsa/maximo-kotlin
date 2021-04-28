@@ -24,7 +24,7 @@ class User {
     @Column(unique = true)
     var email: String = ""
 
-    var type: UserTypeEnum? = null
+    var type: UserTypeEnum? = UserTypeEnum.BUYER
 
     val createdAt: Date = Date()
 
